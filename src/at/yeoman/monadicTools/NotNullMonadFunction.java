@@ -1,5 +1,5 @@
 package at.yeoman.monadicTools;
 
-public interface NotNullMonadFunction<T> {
-    public <R> NotNullMonad<R> call(T value);
+public interface NotNullMonadFunction<T,R> {
+    public NotNullMonad<R> call(T value);
 }

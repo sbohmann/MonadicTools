@@ -1,31 +1,32 @@
 package at.yeoman.monadicTools;
 
 public class NotNullMonad<E> {
-    public static final NotNullMonad<?> NullInstance = createNullInstance();
+    private static final NotNullMonad<?> NullInstance = createNullInstance();
 
     private final E value;
 
-    public NotNullMonad(E value) {
+    private NotNullMonad(E value) {
         this.value = value;
     }
 
     public static <E> NotNullMonad<E> unit(E value) {
         if (value == null) {
             return nullInstance();
-        }
-        else {
+        } else {
             return new NotNullMonad<E>(value);
         }
     }
 
-    public <R> NotNullMonad<R> bind(NotNullMonadFunction<E> function) {
+    public <R> NotNullMonad<R> bind(NotNullMonadFunction<E,R> function) {
         if (value == null) {
             return nullInstance();
-        }
-        else {
-            // TODO test: this really shouldn't work, as "R" as the return type name could be a pure coincidence...
+        } else {
             return function.call(value);
         }
+    }
+
+    public E get() {
+        return value;
     }
 
     @SuppressWarnings("unchecked")
